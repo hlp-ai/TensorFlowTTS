@@ -14,5 +14,3 @@ from tensorflow_tts.models.hifigan import (
     TFHifiGANPeriodDiscriminator
 )
 from tensorflow_tts.models.tacotron2 import TFTacotron2
-from tensorflow_tts.models.parallel_wavegan import TFParallelWaveGANGenerator
-from tensorflow_tts.models.parallel_wavegan import TFParallelWaveGANDiscriminator

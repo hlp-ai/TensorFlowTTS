@@ -24,7 +24,6 @@ from tensorflow_tts.models import (
     TFMBMelGANGenerator,
     TFHifiGANGenerator,
     TFTacotron2,
-    TFParallelWaveGANGenerator,
 )
 
 

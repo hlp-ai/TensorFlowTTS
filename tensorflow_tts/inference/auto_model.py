@@ -35,7 +35,6 @@ from tensorflow_tts.models import (
     TFMelGANGenerator,
     TFMBMelGANGenerator,
     TFHifiGANGenerator,
-    TFParallelWaveGANGenerator,
 )
 
 from tensorflow_tts.inference.savable_models import (
@@ -56,7 +55,6 @@ TF_MODEL_MAPPING = OrderedDict(
         (MelGANGeneratorConfig, TFMelGANGenerator),
         (Tacotron2Config, SavableTFTacotron2),
         (HifiGANGeneratorConfig, TFHifiGANGenerator),
-        (ParallelWaveGANGeneratorConfig, TFParallelWaveGANGenerator),
     ]
 )
 
