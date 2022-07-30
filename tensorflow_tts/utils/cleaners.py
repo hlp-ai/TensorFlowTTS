@@ -21,14 +21,14 @@
 
 import re
 
-from tensorflow_tts.utils.korean import tokenize as ko_tokenize
+# from tensorflow_tts.utils.korean import tokenize as ko_tokenize
 from tensorflow_tts.utils.number_norm import normalize_numbers
 from unidecode import unidecode
 
-try:
-    from german_transliterate.core import GermanTransliterate
-except:
-    pass
+# try:
+#     from german_transliterate.core import GermanTransliterate
+# except:
+#     pass
 
 # Regular expression matching whitespace:
 _whitespace_re = re.compile(r"\s+")
@@ -106,17 +106,17 @@ def english_cleaners(text):
     return text
 
 
-def korean_cleaners(text):
-    """Pipeline for Korean text, including number and abbreviation expansion."""
-    text = ko_tokenize(
-        text
-    )  # '존경하는' --> ['ᄌ', 'ᅩ', 'ᆫ', 'ᄀ', 'ᅧ', 'ᆼ', 'ᄒ', 'ᅡ', 'ᄂ', 'ᅳ', 'ᆫ']
-    return text
-
-def german_cleaners(text):
-    """Pipeline for German text, including number and abbreviation expansion."""
-    try:
-        text = GermanTransliterate(replace={';': ',', ':': ' '}, sep_abbreviation=' -- ').transliterate(text)
-    except NameError:
-        raise ModuleNotFoundError("Install german_transliterate package to use german_cleaners")
-    return text
+# def korean_cleaners(text):
+#     """Pipeline for Korean text, including number and abbreviation expansion."""
+#     text = ko_tokenize(
+#         text
+#     )  # '존경하는' --> ['ᄌ', 'ᅩ', 'ᆫ', 'ᄀ', 'ᅧ', 'ᆼ', 'ᄒ', 'ᅡ', 'ᄂ', 'ᅳ', 'ᆫ']
+#     return text
+#
+# def german_cleaners(text):
+#     """Pipeline for German text, including number and abbreviation expansion."""
+#     try:
+#         text = GermanTransliterate(replace={';': ',', ':': ' '}, sep_abbreviation=' -- ').transliterate(text)
+#     except NameError:
+#         raise ModuleNotFoundError("Install german_transliterate package to use german_cleaners")
+#     return text

@@ -22,7 +22,7 @@ import soundfile as sf
 from dataclasses import dataclass
 from tensorflow_tts.processor import BaseProcessor
 from tensorflow_tts.utils import cleaners
-from tensorflow_tts.utils.korean import symbols as KSS_SYMBOLS
+# from tensorflow_tts.utils.korean import symbols as KSS_SYMBOLS
 from tensorflow_tts.utils.utils import PROCESSOR_FILE_NAME
 
 # Regular expression matching text enclosed in curly braces:
