@@ -22,7 +22,6 @@ from tensorflow_tts.models import (
     TFFastSpeech2,
     TFMelGANGenerator,
     TFMBMelGANGenerator,
-    TFHifiGANGenerator,
     TFTacotron2,
 )
 

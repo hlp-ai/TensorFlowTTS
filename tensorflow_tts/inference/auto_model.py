@@ -26,15 +26,12 @@ from tensorflow_tts.configs import (
     FastSpeech2Config,
     MelGANGeneratorConfig,
     MultiBandMelGANGeneratorConfig,
-    HifiGANGeneratorConfig,
     Tacotron2Config,
-    ParallelWaveGANGeneratorConfig,
 )
 
 from tensorflow_tts.models import (
     TFMelGANGenerator,
     TFMBMelGANGenerator,
-    TFHifiGANGenerator,
 )
 
 from tensorflow_tts.inference.savable_models import (
@@ -54,7 +51,6 @@ TF_MODEL_MAPPING = OrderedDict(
         (MultiBandMelGANGeneratorConfig, TFMBMelGANGenerator),
         (MelGANGeneratorConfig, TFMelGANGenerator),
         (Tacotron2Config, SavableTFTacotron2),
-        (HifiGANGeneratorConfig, TFHifiGANGenerator),
     ]
 )
 
