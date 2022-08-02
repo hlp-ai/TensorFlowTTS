@@ -21,13 +21,9 @@ from collections import OrderedDict
 
 from tensorflow_tts.processor import (
     LJSpeechProcessor,
-    KSSProcessor,
     BakerProcessor,
     LibriTTSProcessor,
-    ThorstenProcessor,
     LJSpeechUltimateProcessor,
-    SynpaflexProcessor,
-    # JSUTProcessor,
 )
 
 from tensorflow_tts.utils import CACHE_DIRECTORY, PROCESSOR_FILE_NAME, LIBRARY_NAME
@@ -37,13 +33,9 @@ from huggingface_hub import hf_hub_url, cached_download
 CONFIG_MAPPING = OrderedDict(
     [
         ("LJSpeechProcessor", LJSpeechProcessor),
-        ("KSSProcessor", KSSProcessor),
         ("BakerProcessor", BakerProcessor),
         ("LibriTTSProcessor", LibriTTSProcessor),
-        ("ThorstenProcessor", ThorstenProcessor),
         ("LJSpeechUltimateProcessor", LJSpeechUltimateProcessor),
-        ("SynpaflexProcessor", SynpaflexProcessor),
-        # ("JSUTProcessor", JSUTProcessor),
     ]
 )
 
