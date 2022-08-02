@@ -30,15 +30,15 @@ class LJ(BaseProcessor):
 
 @pytest.fixture
 def processor(tmpdir):
-    copyfile("test/files/train.txt", f"{tmpdir}/train.txt")
+    copyfile("./files/train.txt", f"{tmpdir}/train.txt")
     processor = LJ(data_dir=tmpdir, symbols=list(string.ascii_lowercase))
     return processor
 
 
 @pytest.fixture
 def mapper_processor(tmpdir):
-    copyfile("test/files/train.txt", f"{tmpdir}/train.txt")
-    copyfile("test/files/mapper.json", f"{tmpdir}/mapper.json")
+    copyfile("./files/train.txt", f"{tmpdir}/train.txt")
+    copyfile("./files/mapper.json", f"{tmpdir}/mapper.json")
     processor = LJ(data_dir=tmpdir, loaded_mapper_path=f"{tmpdir}/mapper.json")
     return processor
 
