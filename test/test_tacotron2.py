@@ -1,18 +1,3 @@
-# -*- coding: utf-8 -*-
-# Copyright 2020 Minh Nguyen (@dathudeptrai)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import logging
 import os
 import time
@@ -39,13 +24,12 @@ logging.basicConfig(
 @pytest.mark.parametrize(
     "var_train_expr, config_path",
     [
-        ("embeddings|decoder_cell", "./examples/tacotron2/conf/tacotron2.v1.yaml"),
-        (None, "./examples/tacotron2/conf/tacotron2.v1.yaml"),
+        ("embeddings|decoder_cell", "../examples/tacotron2/conf/tacotron2.v1.yaml"),
+        (None, "../examples/tacotron2/conf/tacotron2.v1.yaml"),
         (
             "embeddings|decoder_cell",
-            "./examples/tacotron2/conf/tacotron2.baker.v1.yaml",
+            "../examples/tacotron2/conf/tacotron2.baker.v1.yaml",
         ),
-        ("embeddings|decoder_cell", "./examples/tacotron2/conf/tacotron2.kss.v1.yaml"),
     ],
 )
 def test_tacotron2_train_some_layers(var_train_expr, config_path):
