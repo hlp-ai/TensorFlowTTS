@@ -2,7 +2,6 @@ import logging
 import os
 
 import pytest
-import tensorflow as tf
 
 from tensorflow_tts.inference import AutoConfig
 from tensorflow_tts.inference import AutoProcessor
