@@ -145,7 +145,7 @@ class BaseProcessor(abc.ABC):
         return sample
 
     @abc.abstractmethod
-    def text_to_sequence(self, text: str):
+    def text_to_sequence(self, text: str, inference=True):
         return []
 
     @abc.abstractmethod
