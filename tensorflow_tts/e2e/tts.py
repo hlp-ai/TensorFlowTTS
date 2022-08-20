@@ -1,4 +1,5 @@
 import os
+import re
 import tempfile
 import wave
 
@@ -56,6 +57,10 @@ def play_wav(fn):
     p.terminate()
 
 
+def split_text(text):
+    return re.split(r"[.?,:。？，：]", text)
+
+
 synthesizers = {"en": Tacotron2MBGan("tensorspeech/tts-tacotron2-ljspeech-en",
                                 "tensorspeech/tts-tacotron2-ljspeech-en",
                                 "tensorspeech/tts-mb_melgan-ljspeech-en"),
@@ -73,9 +78,16 @@ if __name__ == "__main__":
 
         print("Generating wav...")
         wav = synthesizer.towav(text)
+        # sentences = split_text(text)
+        # total_wav = []
+        # for s in sentences:
+        #     wav = synthesizer.towav(s)
+        #     print(wav)
+        #     total_wav.append(wav)
 
         print("Saving wav...")
         tmp_wav_fn = os.path.join(tempfile.gettempdir(), str(hash(text)) + ".wav")
+        # soundfile.write(tmp_wav_fn, tf.concat(total_wav, axis=0), 22050, "PCM_16")
         soundfile.write(tmp_wav_fn, wav, 22050, "PCM_16")
 
         print("Playing wav...")
