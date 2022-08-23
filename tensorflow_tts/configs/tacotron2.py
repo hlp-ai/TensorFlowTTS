@@ -1,19 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2020 Minh Nguyen (@dathudeptrai)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 """Tacotron-2 Config object."""
-
 
 from tensorflow_tts.configs import BaseConfig
 from tensorflow_tts.processor.ljspeech import LJSPEECH_SYMBOLS as lj_symbols
@@ -60,18 +45,12 @@ class Tacotron2Config(BaseConfig):
         """Init parameters for Tacotron-2 model."""
         if dataset == "ljspeech":
             self.vocab_size = vocab_size
-        elif dataset == "kss":
-            self.vocab_size = len(kss_symbols)
         elif dataset == "baker":
             self.vocab_size = len(bk_symbols)
         elif dataset == "libritts":
             self.vocab_size = len(lbri_symbols)
         elif dataset == "ljspeechu":
             self.vocab_size = len(lju_symbols)
-        elif dataset == "synpaflex":
-            self.vocab_size = len(synpaflex_symbols)
-        elif dataset == "jsut":
-            self.vocab_size = len(jsut_symbols)
         else:
             raise ValueError("No such dataset: {}".format(dataset))
         self.embedding_hidden_size = embedding_hidden_size
