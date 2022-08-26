@@ -1,6 +1,4 @@
 """Dataset modules."""
-
-import logging
 import os
 
 import numpy as np
