@@ -1,6 +1,4 @@
 """Audio modules."""
-
-import logging
 import os
 
 import numpy as np
@@ -27,7 +25,6 @@ class AudioDataset(AbstractDataset):
             audio_query (str): Query to find feature files in root_dir.
             audio_load_fn (func): Function to load feature file.
             audio_length_threshold (int): Threshold to remove short feature files.
-            return_utt_id (bool): Whether to return the utterance id with arrays.
 
         """
         # find all of mel files.
