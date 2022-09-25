@@ -85,13 +85,9 @@ $ pip install --upgrade .
 # Supported Model architectures
 TensorFlowTTS currently  provides the following architectures:
 
-1. **MelGAN** released with the paper [MelGAN: Generative Adversarial Networks for Conditional Waveform Synthesis](https://arxiv.org/abs/1910.06711) by Kundan Kumar, Rithesh Kumar, Thibault de Boissiere, Lucas Gestin, Wei Zhen Teoh, Jose Sotelo, Alexandre de Brebisson, Yoshua Bengio, Aaron Courville.
-2. **Tacotron-2** released with the paper [Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions](https://arxiv.org/abs/1712.05884) by Jonathan Shen, Ruoming Pang, Ron J. Weiss, Mike Schuster, Navdeep Jaitly, Zongheng Yang, Zhifeng Chen, Yu Zhang, Yuxuan Wang, RJ Skerry-Ryan, Rif A. Saurous, Yannis Agiomyrgiannakis, Yonghui Wu.
-3. **FastSpeech** released with the paper [FastSpeech: Fast, Robust, and Controllable Text to Speech](https://arxiv.org/abs/1905.09263) by Yi Ren, Yangjun Ruan, Xu Tan, Tao Qin, Sheng Zhao, Zhou Zhao, Tie-Yan Liu.
-4. **Multi-band MelGAN** released with the paper [Multi-band MelGAN: Faster Waveform Generation for High-Quality Text-to-Speech](https://arxiv.org/abs/2005.05106) by Geng Yang, Shan Yang, Kai Liu, Peng Fang, Wei Chen, Lei Xie.
-5. **FastSpeech2** released with the paper [FastSpeech 2: Fast and High-Quality End-to-End Text to Speech](https://arxiv.org/abs/2006.04558) by Yi Ren, Chenxu Hu, Xu Tan, Tao Qin, Sheng Zhao, Zhou Zhao, Tie-Yan Liu.
-6. **Parallel WaveGAN** released with the paper [Parallel WaveGAN: A fast waveform generation model based on generative adversarial networks with multi-resolution spectrogram](https://arxiv.org/abs/1910.11480) by Ryuichi Yamamoto, Eunwoo Song, Jae-Min Kim.
-7. **HiFi-GAN** released with the paper [HiFi-GAN: Generative Adversarial Networks for Efficient and High Fidelity Speech Synthesis](https://arxiv.org/abs/2010.05646) by Jungil Kong, Jaehyeon Kim, Jaekyoung Bae.
+1. **Tacotron-2** released with the paper [Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions](https://arxiv.org/abs/1712.05884) by Jonathan Shen, Ruoming Pang, Ron J. Weiss, Mike Schuster, Navdeep Jaitly, Zongheng Yang, Zhifeng Chen, Yu Zhang, Yuxuan Wang, RJ Skerry-Ryan, Rif A. Saurous, Yannis Agiomyrgiannakis, Yonghui Wu.
+2. **Multi-band MelGAN** released with the paper [Multi-band MelGAN: Faster Waveform Generation for High-Quality Text-to-Speech](https://arxiv.org/abs/2005.05106) by Geng Yang, Shan Yang, Kai Liu, Peng Fang, Wei Chen, Lei Xie.
+3. **FastSpeech2** released with the paper [FastSpeech 2: Fast and High-Quality End-to-End Text to Speech](https://arxiv.org/abs/2006.04558) by Yi Ren, Chenxu Hu, Xu Tan, Tao Qin, Sheng Zhao, Zhou Zhao, Tie-Yan Liu.
 
 We are also implementing some techniques to improve quality and convergence speed from the following papers:
 
@@ -219,15 +215,9 @@ We use suffix (`ids`, `raw-feats`, `raw-energy`, `raw-f0`, `norm-feats`, and `wa
 To know how to train model from scratch or fine-tune with other datasets/languages, please see detail at example directory.
 
 - For Tacotron-2 tutorial, pls see [examples/tacotron2](https://github.com/tensorspeech/TensorFlowTTS/tree/master/examples/tacotron2)
-- For FastSpeech tutorial, pls see [examples/fastspeech](https://github.com/tensorspeech/TensorFlowTTS/tree/master/examples/fastspeech)
 - For FastSpeech2 tutorial, pls see [examples/fastspeech2](https://github.com/tensorspeech/TensorFlowTTS/tree/master/examples/fastspeech2)
 - For FastSpeech2 + MFA tutorial, pls see [examples/fastspeech2_libritts](https://github.com/tensorspeech/TensorFlowTTS/tree/master/examples/fastspeech2_libritts)
-- For MelGAN tutorial, pls see [examples/melgan](https://github.com/tensorspeech/TensorFlowTTS/tree/master/examples/melgan)
-- For MelGAN + STFT Loss tutorial, pls see [examples/melgan.stft](https://github.com/tensorspeech/TensorFlowTTS/tree/master/examples/melgan.stft)
 - For Multiband-MelGAN tutorial, pls see [examples/multiband_melgan](https://github.com/tensorspeech/TensorFlowTTS/tree/master/examples/multiband_melgan)
-- For Parallel WaveGAN tutorial, pls see [examples/parallel_wavegan](https://github.com/tensorspeech/TensorFlowTTS/tree/master/examples/parallel_wavegan)
-- For Multiband-MelGAN Generator + HiFi-GAN tutorial, pls see [examples/multiband_melgan_hf](https://github.com/tensorspeech/TensorFlowTTS/tree/master/examples/multiband_melgan_hf)
-- For HiFi-GAN tutorial, pls see [examples/hifigan](https://github.com/tensorspeech/TensorFlowTTS/tree/master/examples/hifigan)
 # Abstract Class Explaination
 
 ## Abstract DataLoader Tensorflow-based dataset
