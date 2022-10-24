@@ -331,24 +331,16 @@ def preprocess():
 
     dataset_processor = {
         "ljspeech": LJSpeechProcessor,
-        "kss": KSSProcessor,
         "libritts": LibriTTSProcessor,
         "baker": BakerProcessor,
-        "thorsten": ThorstenProcessor,
         "ljspeechu": LJSpeechUltimateProcessor,
-        "synpaflex": SynpaflexProcessor,
-        "jsut": JSUTProcessor,
     }
 
     dataset_symbol = {
         "ljspeech": LJSPEECH_SYMBOLS,
-        "kss": KSS_SYMBOLS,
         "libritts": LIBRITTS_SYMBOLS,
         "baker": BAKER_SYMBOLS,
-        "thorsten": THORSTEN_SYMBOLS,
         "ljspeechu": LJSPEECH_U_SYMBOLS,
-        "synpaflex": SYNPAFLEX_SYMBOLS,
-        "jsut": JSUT_SYMBOLS,
     }
 
     dataset_cleaner = {
