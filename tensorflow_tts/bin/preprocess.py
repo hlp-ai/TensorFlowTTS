@@ -54,7 +54,7 @@ def parse_and_config():
         "--dataset",
         type=str,
         default="ljspeech",
-        choices=["ljspeech", "kss", "libritts", "baker", "thorsten", "ljspeechu", "synpaflex", "jsut"],
+        choices=["ljspeech", "libritts", "baker", "ljspeechu"],
         help="Dataset to preprocess.",
     )
     parser.add_argument(
@@ -345,13 +345,9 @@ def preprocess():
 
     dataset_cleaner = {
         "ljspeech": "english_cleaners",
-        "kss": "korean_cleaners",
         "libritts": None,
         "baker": None,
-        "thorsten": "german_cleaners",
         "ljspeechu": "english_cleaners",
-        "synpaflex": "basic_cleaners",
-        "jsut": None,
     }
 
     logging.info(f"Selected '{config['dataset']}' processor.")
