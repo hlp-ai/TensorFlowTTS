@@ -1,17 +1,3 @@
-# -*- coding: utf-8 -*-
-# Copyright 2020 Minh Nguyen (@dathudeptrai)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 """Perform preprocessing, with raw feature extraction and normalization of train/valid split."""
 
 import argparse
@@ -32,20 +18,12 @@ from tqdm import tqdm
 
 from tensorflow_tts.processor import LJSpeechProcessor
 from tensorflow_tts.processor import BakerProcessor
-from tensorflow_tts.processor import KSSProcessor
 from tensorflow_tts.processor import LibriTTSProcessor
-from tensorflow_tts.processor import ThorstenProcessor
 from tensorflow_tts.processor import LJSpeechUltimateProcessor
-from tensorflow_tts.processor import SynpaflexProcessor
-from tensorflow_tts.processor import JSUTProcessor
 from tensorflow_tts.processor.ljspeech import LJSPEECH_SYMBOLS
 from tensorflow_tts.processor.baker import BAKER_SYMBOLS
-from tensorflow_tts.processor.kss import KSS_SYMBOLS
 from tensorflow_tts.processor.libritts import LIBRITTS_SYMBOLS
-from tensorflow_tts.processor.thorsten import THORSTEN_SYMBOLS
 from tensorflow_tts.processor.ljspeechu import LJSPEECH_U_SYMBOLS
-from tensorflow_tts.processor.synpaflex import SYNPAFLEX_SYMBOLS
-from tensorflow_tts.processor.jsut import JSUT_SYMBOLS
 
 from tensorflow_tts.utils import remove_outlier
 
