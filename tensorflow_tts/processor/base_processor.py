@@ -134,19 +134,11 @@ class BaseProcessor(abc.ABC):
         Returns:
             sample (dict): sample dictionary return all feature used for preprocessing later.
         """
-        sample = {
-            "raw_text": None,
-            "text_ids": None,
-            "audio": None,
-            "utt_id": None,
-            "speaker_name": None,
-            "rate": None,
-        }
-        return sample
+        raise NotImplementedError()
 
     @abc.abstractmethod
     def text_to_sequence(self, text: str, inference=True):
-        return []
+        raise NotImplementedError()
 
     @abc.abstractmethod
     def setup_eos_token(self):
