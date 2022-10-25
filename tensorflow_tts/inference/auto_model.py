@@ -1,9 +1,6 @@
 """Tensorflow Auto Model modules."""
 
-import logging
-import warnings
 import os
-import copy
 
 from collections import OrderedDict
 

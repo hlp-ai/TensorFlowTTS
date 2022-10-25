@@ -1,10 +1,8 @@
 import os
-import shutil
 from tqdm import tqdm
 import argparse
 
 from scipy.ndimage import zoom
-from skimage.data import camera
 import numpy as np
 from scipy.spatial.distance import cdist
 
