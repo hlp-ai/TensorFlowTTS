@@ -145,22 +145,6 @@ class BaseProcessor(abc.ABC):
         """Return eos symbol of type string."""
         return "eos"
 
-    def convert_symbols_to_ids(self, symbols: Union[str, list]):
-        sequence = []
-        if isinstance(symbols, str):
-            sequence.append(self._symbol_to_id[symbols])
-            return sequence
-        elif isinstance(symbols, list):
-            for s in symbols:
-                if isinstance(s, str):
-                    sequence.append(self._symbol_to_id[s])
-                else:
-                    raise ValueError("All elements of symbols must be a string.")
-        else:
-            raise ValueError("A symbols must be a string or list of string.")
-
-        return sequence
-
     def _load_mapper(self, loaded_path: str = None):
         """
         Save all needed mappers to file
