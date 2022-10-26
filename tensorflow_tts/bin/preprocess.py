@@ -552,3 +552,4 @@ def compute_statistics():
 
 if __name__ == "__main__":
     preprocess()
+    normalize()
