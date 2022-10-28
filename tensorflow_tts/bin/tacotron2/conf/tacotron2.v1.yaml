@@ -73,8 +73,8 @@ var_train_expr: null  # trainable variable expr (eg. 'embeddings|decoder_cell' )
 #                    INTERVAL SETTING                     #
 ###########################################################
 train_max_steps: 55000                 # Number of training steps.
-save_interval_steps: 500               # Interval steps to save checkpoint.
-eval_interval_steps: 500                # Interval steps to evaluate the network.
+save_interval_steps: 200               # Interval steps to save checkpoint.
+eval_interval_steps: 200                # Interval steps to evaluate the network.
 log_interval_steps: 200                 # Interval steps to record the training log.
 start_schedule_teacher_forcing: 200001  # don't need to apply schedule teacher forcing.
 start_ratio_value: 0.5                  # start ratio of scheduled teacher forcing.

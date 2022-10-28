@@ -6,14 +6,9 @@ physical_devices = tf.config.list_physical_devices("GPU")
 for i in range(len(physical_devices)):
     tf.config.experimental.set_memory_growth(physical_devices[i], True)
 
-import os
-
-import numpy as np
-import soundfile as sf
-
 from tensorflow_tts.losses import TFMelSpectrogram
 from tensorflow_tts.trainers import GanBasedTrainer
-from tensorflow_tts.utils import calculate_2d_loss, calculate_3d_loss
+from tensorflow_tts.utils import calculate_3d_loss
 
 
 class MelganTrainer(GanBasedTrainer):
@@ -87,40 +82,7 @@ class MelganTrainer(GanBasedTrainer):
             per_example_losses: per example losses for each GPU, shape [B]
             dict_metrics_losses: dictionary loss.
         """
-        audios = batch["audios"]
-        y_hat = outputs
-
-        p_hat = self._discriminator(y_hat)
-        p = self._discriminator(tf.expand_dims(audios, 2))
-        adv_loss = 0.0
-        for i in range(len(p_hat)):
-            adv_loss += calculate_3d_loss(
-                tf.ones_like(p_hat[i][-1]), p_hat[i][-1], loss_fn=self.mse_loss
-            )
-        adv_loss /= i + 1
-
-        # define feature-matching loss
-        fm_loss = 0.0
-        for i in range(len(p_hat)):
-            for j in range(len(p_hat[i]) - 1):
-                fm_loss += calculate_3d_loss(
-                    p[i][j], p_hat[i][j], loss_fn=self.mae_loss
-                )
-        fm_loss /= (i + 1) * (j + 1)
-        adv_loss += self.config["lambda_feat_match"] * fm_loss
-
-        per_example_losses = adv_loss
-
-        dict_metrics_losses = {
-            "adversarial_loss": adv_loss,
-            "fm_loss": fm_loss,
-            "gen_loss": adv_loss,
-            "mels_spectrogram_loss": calculate_2d_loss(
-                audios, tf.squeeze(y_hat, -1), loss_fn=self.mels_loss
-            ),
-        }
-
-        return per_example_losses, dict_metrics_losses
+        pass
 
     def compute_per_example_discriminator_losses(self, batch, gen_outputs):
         audios = batch["audios"]
@@ -156,61 +118,7 @@ class MelganTrainer(GanBasedTrainer):
 
     def generate_and_save_intermediate_result(self, batch):
         """Generate and save intermediate result."""
-        import matplotlib.pyplot as plt
-
-        # generate
-        y_batch_ = self.one_step_predict(batch)
-        y_batch = batch["audios"]
-        utt_ids = batch["utt_ids"]
-
-        # convert to tensor.
-        # here we just take a sample at first replica.
-        try:
-            y_batch_ = y_batch_.values[0].numpy()
-            y_batch = y_batch.values[0].numpy()
-            utt_ids = utt_ids.values[0].numpy()
-        except Exception:
-            y_batch_ = y_batch_.numpy()
-            y_batch = y_batch.numpy()
-            utt_ids = utt_ids.numpy()
-
-        # check directory
-        dirname = os.path.join(self.config["outdir"], f"predictions/{self.steps}steps")
-        if not os.path.exists(dirname):
-            os.makedirs(dirname)
-
-        for idx, (y, y_) in enumerate(zip(y_batch, y_batch_), 0):
-            # convert to ndarray
-            y, y_ = tf.reshape(y, [-1]).numpy(), tf.reshape(y_, [-1]).numpy()
-
-            # plit figure and save it
-            utt_id = utt_ids[idx]
-            figname = os.path.join(dirname, f"{utt_id}.png")
-            plt.subplot(2, 1, 1)
-            plt.plot(y)
-            plt.title("groundtruth speech")
-            plt.subplot(2, 1, 2)
-            plt.plot(y_)
-            plt.title(f"generated speech @ {self.steps} steps")
-            plt.tight_layout()
-            plt.savefig(figname)
-            plt.close()
-
-            # save as wavefile
-            y = np.clip(y, -1, 1)
-            y_ = np.clip(y_, -1, 1)
-            sf.write(
-                figname.replace(".png", "_ref.wav"),
-                y,
-                self.config["sampling_rate"],
-                "PCM_16",
-            )
-            sf.write(
-                figname.replace(".png", "_gen.wav"),
-                y_,
-                self.config["sampling_rate"],
-                "PCM_16",
-            )
+        pass
 
 
 def collater(
