@@ -93,7 +93,7 @@ tflite_model = converter.convert()
 
 
 # Save the TF Lite model.
-with open('fastspeech_quant.tflite', 'wb') as f:
+with open('../../e2e/fastspeech_quant.tflite', 'wb') as f:
   f.write(tflite_model)
 
 print('Model size is %f MBs.' % (len(tflite_model) / 1024 / 1024.0) )
@@ -116,7 +116,7 @@ import numpy as np
 import tensorflow as tf
 
 # Load the TFLite model and allocate tensors.
-interpreter = tf.lite.Interpreter(model_path='fastspeech_quant.tflite')
+interpreter = tf.lite.Interpreter(model_path='../../e2e/fastspeech_quant.tflite')
 
 # Get input and output tensors.
 input_details = interpreter.get_input_details()
