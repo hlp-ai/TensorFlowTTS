@@ -8,8 +8,6 @@ for i in range(len(physical_devices)):
 
 import sys
 
-sys.path.append(".")
-
 import argparse
 import logging
 import os
@@ -18,7 +16,7 @@ import numpy as np
 import yaml
 
 import tensorflow_tts
-from examples.fastspeech2.fastspeech2_dataset import CharactorDurationF0EnergyMelDataset
+from tensorflow_tts.bin.fastspeech2.fastspeech2_dataset import CharactorDurationF0EnergyMelDataset
 from tensorflow_tts.configs import FastSpeech2Config
 from tensorflow_tts.models import TFFastSpeech2
 from tensorflow_tts.optimizers import AdamWeightDecay, WarmUp

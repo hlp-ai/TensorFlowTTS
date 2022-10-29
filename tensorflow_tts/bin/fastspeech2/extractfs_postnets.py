@@ -5,14 +5,12 @@ import logging
 import os
 import sys
 
-sys.path.append(".")
-
 import numpy as np
 import tensorflow as tf
 import yaml
 from tqdm import tqdm
 
-from examples.fastspeech.fastspeech_dataset import CharactorDataset
+from tensorflow_tts.bin.fastspeech2.fastspeech2_dataset import CharactorDurationF0EnergyMelDataset
 from tensorflow_tts.configs import FastSpeech2Config
 from tensorflow_tts.models import TFFastSpeech2
 
@@ -82,6 +80,12 @@ def main():
         os.makedirs(args.outdir)
 
     # load config
+
+    outdpost = os.path.join(args.outdir, "postnets")
+
+    if not os.path.exists(outdpost):
+        os.makedirs(outdpost)
+
     with open(args.config) as f:
         config = yaml.load(f, Loader=yaml.Loader)
     config.update(vars(args))
@@ -93,12 +97,14 @@ def main():
         raise ValueError("Only npy is supported.")
 
     # define data-loader
-    dataset = CharactorDataset(
+    dataset = CharactorDurationF0EnergyMelDataset(
         root_dir=args.rootdir,
         charactor_query=char_query,
         charactor_load_fn=char_load_fn,
     )
-    dataset = dataset.create(batch_size=args.batch_size)
+    dataset = dataset.create(
+        batch_size=1
+    )  # force batch size to 1 otherwise it may miss certain files
 
     # define model and load checkpoint
     fastspeech2 = TFFastSpeech2(
@@ -106,45 +112,32 @@ def main():
     )
     fastspeech2._build()
     fastspeech2.load_weights(args.checkpoint)
+    fastspeech2 = tf.function(fastspeech2, experimental_relax_shapes=True)
 
     for data in tqdm(dataset, desc="Decoding"):
         utt_ids = data["utt_ids"]
         char_ids = data["input_ids"]
+        mel_lens = data["mel_lengths"]
 
         # fastspeech inference.
-        (
-            masked_mel_before,
-            masked_mel_after,
-            duration_outputs,
-            _,
-            _,
-        ) = fastspeech2.inference(
-            char_ids,
-            speaker_ids=tf.zeros(shape=[tf.shape(char_ids)[0]], dtype=tf.int32),
-            speed_ratios=tf.ones(shape=[tf.shape(char_ids)[0]], dtype=tf.float32),
-            f0_ratios=tf.ones(shape=[tf.shape(char_ids)[0]], dtype=tf.float32),
-            energy_ratios=tf.ones(shape=[tf.shape(char_ids)[0]], dtype=tf.float32),
+        masked_mel_before, masked_mel_after, duration_outputs, _, _ = fastspeech2(
+            **data, training=True
         )
 
         # convert to numpy
         masked_mel_befores = masked_mel_before.numpy()
         masked_mel_afters = masked_mel_after.numpy()
 
-        for (utt_id, mel_before, mel_after, durations) in zip(
-            utt_ids, masked_mel_befores, masked_mel_afters, duration_outputs
+        for (utt_id, mel_before, mel_after, durations, mel_len) in zip(
+            utt_ids, masked_mel_befores, masked_mel_afters, duration_outputs, mel_lens
         ):
             # real len of mel predicted
-            real_length = durations.numpy().sum()
+            real_length = np.around(durations.numpy().sum()).astype(int)
             utt_id = utt_id.numpy().decode("utf-8")
-            # save to folder.
+
             np.save(
-                os.path.join(args.outdir, f"{utt_id}-fs-before-feats.npy"),
-                mel_before[:real_length, :].astype(np.float32),
-                allow_pickle=False,
-            )
-            np.save(
-                os.path.join(args.outdir, f"{utt_id}-fs-after-feats.npy"),
-                mel_after[:real_length, :].astype(np.float32),
+                os.path.join(outdpost, f"{utt_id}-postnet.npy"),
+                mel_after[:mel_len, :].astype(np.float32),
                 allow_pickle=False,
             )
 
