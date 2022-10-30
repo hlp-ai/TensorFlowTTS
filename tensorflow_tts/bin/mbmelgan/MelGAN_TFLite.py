@@ -18,6 +18,7 @@ import yaml
 
 
 from tensorflow_tts.configs import MelGANGeneratorConfig
+from tensorflow_tts.inference import AutoConfig, TFAutoModel
 from tensorflow_tts.models import TFMelGANGenerator
 
 import numpy as np
@@ -37,13 +38,21 @@ from IPython.display import Audio
 # ## Load Model
 
 
-with open('/content/melgan.v1.yaml') as f:
-    config = yaml.load(f, Loader=yaml.Loader)
+# with open('/content/melgan.v1.yaml') as f:
+#     config = yaml.load(f, Loader=yaml.Loader)
+#
+# melgan = TFMelGANGenerator(
+#         config=MelGANGeneratorConfig(**config["melgan_generator_params"]), name="melgan_generator")
+# melgan._build()
+# melgan.load_weights('model.h5')
 
-melgan = TFMelGANGenerator(
-        config=MelGANGeneratorConfig(**config["melgan_generator_params"]), name="melgan_generator")
-melgan._build()
-melgan.load_weights('model.h5')
+mel2wav_conf_fn = r"D:\kidden\github\TensorFlowTTS\examples\multiband_melgan\conf\multiband_melgan.baker.v1.yaml"
+print("Loading mel2wav config from", mel2wav_conf_fn)
+mel2wav_conf = AutoConfig.from_pretrained(mel2wav_conf_fn)
+
+model_fn2 = r"D:\dataset\baker\baker\mbmelgan\checkpoints\generator-80000.h5"
+print("Loading mel2wav model from", model_fn2)
+melgan = TFAutoModel.from_pretrained(model_fn2, mel2wav_conf)
 
 
 # ## Convert to TFLite
@@ -85,28 +94,27 @@ convert_to_tflite(quantization)
 
 # ## TFLite Inference
 
-data = np.load('tac_output.npy')
-feats = np.expand_dims(data, 0)
-
-interpreter = tf.lite.Interpreter(model_path='melgan_dr.tflite')
-
-input_details = interpreter.get_input_details()
-
-output_details = interpreter.get_output_details()
-
-interpreter.resize_tensor_input(input_details[0]['index'],  [1, feats.shape[1], feats.shape[2]], strict=True)
-interpreter.allocate_tensors()
-
-interpreter.set_tensor(input_details[0]['index'], feats)
-
-interpreter.invoke()
-
-output = interpreter.get_tensor(output_details[0]['index'])
-
-
-# ## Play Audio
-
-
-output = np.squeeze(output)
-Audio(output, rate=22050)
+# data = np.load('tac_output.npy')
+# feats = np.expand_dims(data, 0)
+#
+# interpreter = tf.lite.Interpreter(model_path='melgan_dr.tflite')
+#
+# input_details = interpreter.get_input_details()
+#
+# output_details = interpreter.get_output_details()
+#
+# interpreter.resize_tensor_input(input_details[0]['index'],  [1, feats.shape[1], feats.shape[2]], strict=True)
+# interpreter.allocate_tensors()
+#
+# interpreter.set_tensor(input_details[0]['index'], feats)
+#
+# interpreter.invoke()
+#
+# output = interpreter.get_tensor(output_details[0]['index'])
+#
+#
+# # ## Play Audio
+#
+# output = np.squeeze(output)
+# Audio(output, rate=22050)
 
