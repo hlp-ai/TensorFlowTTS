@@ -2,8 +2,6 @@ import logging
 import os
 import time
 import yaml
-
-import numpy as np
 import pytest
 import tensorflow as tf
 
@@ -11,7 +9,7 @@ from tensorflow_tts.configs import Tacotron2Config
 from tensorflow_tts.models import TFTacotron2
 from tensorflow_tts.utils import return_strategy
 
-from examples.tacotron2.train_tacotron2 import Tacotron2Trainer
+from tensorflow_tts.bin.tacotron2.train_tacotron2 import Tacotron2Trainer
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
@@ -24,11 +22,11 @@ logging.basicConfig(
 @pytest.mark.parametrize(
     "var_train_expr, config_path",
     [
-        ("embeddings|decoder_cell", "../examples/tacotron2/conf/tacotron2.v1.yaml"),
-        (None, "../examples/tacotron2/conf/tacotron2.v1.yaml"),
+        ("embeddings|decoder_cell", "../tensorflow_tts/bin/tacotron2/conf/tacotron2.v1.yaml"),
+        (None, "../tensorflow_tts/bin/tacotron2/conf/tacotron2.v1.yaml"),
         (
             "embeddings|decoder_cell",
-            "../examples/tacotron2/conf/tacotron2.baker.v1.yaml",
+            "../tensorflow_tts/bin/tacotron2/conf/tacotron2.baker.v1.yaml",
         ),
     ],
 )
@@ -62,7 +60,7 @@ def test_tacotron2_train_some_layers(var_train_expr, config_path):
 
 @pytest.mark.parametrize(
     "n_speakers, n_chars, max_input_length, max_mel_length, batch_size",
-    [(2, 15, 25, 50, 2),],
+    [(2, 15, 25, 50, 2), (1, 15, 25, 50, 1)],
 )
 def test_tacotron2_trainable(
     n_speakers, n_chars, max_input_length, max_mel_length, batch_size
@@ -70,23 +68,17 @@ def test_tacotron2_trainable(
     config = Tacotron2Config(n_speakers=n_speakers, reduction_factor=1)
     model = TFTacotron2(config, name="tacotron2")
     model._build()
+
     # fake input
     input_ids = tf.random.uniform(
         [batch_size, max_input_length], maxval=n_chars, dtype=tf.int32
     )
+    input_lengths = tf.constant([max_input_length]*batch_size)
     speaker_ids = tf.convert_to_tensor([0] * batch_size, tf.int32)
     mel_gts = tf.random.uniform(shape=[batch_size, max_mel_length, 80])
-    mel_lengths = np.random.randint(
-        max_mel_length, high=max_mel_length + 1, size=[batch_size]
-    )
-    mel_lengths[-1] = max_mel_length
-    mel_lengths = tf.convert_to_tensor(mel_lengths, dtype=tf.int32)
-
-    stop_tokens = np.zeros((batch_size, max_mel_length), np.float32)
-    stop_tokens = tf.convert_to_tensor(stop_tokens)
+    mel_lengths = tf.constant([max_mel_length]*batch_size)
 
     optimizer = tf.keras.optimizers.Adam(lr=0.001)
-
     binary_crossentropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 
     @tf.function(experimental_relax_shapes=True)
@@ -94,7 +86,7 @@ def test_tacotron2_trainable(
         with tf.GradientTape() as tape:
             mel_preds, post_mel_preds, stop_preds, alignment_history = model(
                 input_ids,
-                tf.constant([max_input_length, max_input_length]),
+                input_lengths,
                 speaker_ids,
                 mel_gts,
                 mel_lengths,
@@ -124,10 +116,8 @@ def test_tacotron2_trainable(
     for i in range(2):
         if i == 1:
             start = time.time()
-        loss, alignment_history = one_step_training(
-            input_ids, speaker_ids, mel_gts, mel_lengths
-        )
+        loss, alignment_history = one_step_training(input_ids, speaker_ids, mel_gts, mel_lengths)
         print(f" > loss: {loss}")
     total_runtime = time.time() - start
     print(f" > Total run-time: {total_runtime}")
-    print(f" > Avg run-time: {total_runtime/10}")
+    print(f" > Avg run-time: {total_runtime/2}")
