@@ -121,3 +121,26 @@ def test_tacotron2_trainable(
     total_runtime = time.time() - start
     print(f" > Total run-time: {total_runtime}")
     print(f" > Avg run-time: {total_runtime/2}")
+
+
+def test_tflite():
+    config = Tacotron2Config(n_speakers=1, reduction_factor=1)
+    tacotron2 = TFTacotron2(config, name="tacotron2")
+    tacotron2._build()
+
+    # Concrete Function
+    tacotron2_concrete_function = tacotron2.inference_tflite.get_concrete_function()
+
+    converter = tf.lite.TFLiteConverter.from_concrete_functions(
+        [tacotron2_concrete_function]
+    )
+    converter.optimizations = [tf.lite.Optimize.DEFAULT]
+    converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS,
+                                           tf.lite.OpsSet.SELECT_TF_OPS]
+    tflite_model = converter.convert()
+
+    # Save the TF Lite model.
+    with open('tacotron2.tflite', 'wb') as f:
+        f.write(tflite_model)
+
+    print('Model size is %f MBs.' % (len(tflite_model) / 1024 / 1024.0))
