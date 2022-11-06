@@ -9,7 +9,7 @@ txt2mel_conf_fn = r"D:\kidden\mt\open\github\TensorFlowTTS\tensorflow_tts\bin\fa
 print("Loading txt2mel config from", txt2mel_conf_fn)
 txt2mel_conf = AutoConfig.from_pretrained(txt2mel_conf_fn)
 
-model_fn = r"D:\dataset\baker\baker\tacotron2\checkpoints\model-12000.h5"
+model_fn = r"D:\dataset\baker\baker\fastspeech2\checkpoints\model-80000.h5"
 print("Loading txt2mel model from", model_fn)
 txt2mel = TFAutoModel.from_pretrained(model_fn, txt2mel_conf)
 
@@ -32,7 +32,7 @@ print("Text to Mel...")
 mel_before, mel_after, duration_outputs, _, _ = txt2mel.inference(
     input_ids=tf.expand_dims(tf.convert_to_tensor(input_ids, dtype=tf.int32), 0),
     speaker_ids=tf.convert_to_tensor([0], dtype=tf.int32),
-    speed_ratios=tf.convert_to_tensor([1.0], dtype=tf.float32),
+    speed_ratios=tf.convert_to_tensor([1.5], dtype=tf.float32),
     f0_ratios =tf.convert_to_tensor([1.0], dtype=tf.float32),
     energy_ratios =tf.convert_to_tensor([1.0], dtype=tf.float32),
 )
