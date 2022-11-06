@@ -42,4 +42,4 @@ audio = mel2wav.inference(mel_after)[0, :, 0]
 
 wav_fn = './audio_fs2.wav'
 print("Saving wav file into", wav_fn)
-sf.write(wav_fn, audio, 22050, "PCM_16")
+sf.write(wav_fn, audio, 24000, "PCM_16")
