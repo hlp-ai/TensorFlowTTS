@@ -5,11 +5,10 @@ import yaml
 import pytest
 import tensorflow as tf
 
+from tensorflow_tts.bin.fastspeech2.train_fastspeech2 import FastSpeech2Trainer
 from tensorflow_tts.configs import FastSpeech2Config
 from tensorflow_tts.models import TFFastSpeech2
 from tensorflow_tts.utils import return_strategy
-
-from examples.fastspeech2.train_fastspeech2 import FastSpeech2Trainer
 
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
@@ -32,10 +31,10 @@ def test_fastspeech_resize_positional_embeddings(new_size):
 @pytest.mark.parametrize(
     "var_train_expr, config_path",
     [
-        (None, "../examples/fastspeech2/conf/fastspeech2.v1.yaml"),
-        ("embeddings|encoder", "../examples/fastspeech2/conf/fastspeech2.v1.yaml"),
-        ("embeddings|encoder", "../examples/fastspeech2/conf/fastspeech2.v2.yaml"),
-        ("embeddings|encoder", "../examples/fastspeech2/conf/fastspeech2.baker.v2.yaml"),
+        (None, "../tensorflow_tts/bin/fastspeech2/conf/fastspeech2.v1.yaml"),
+        ("embeddings|encoder", "../tensorflow_tts/bin/fastspeech2/conf/fastspeech2.v1.yaml"),
+        ("embeddings|encoder", "../tensorflow_tts/bin/fastspeech2/conf/fastspeech2.v2.yaml"),
+        ("embeddings|encoder", "../tensorflow_tts/bin/fastspeech2/conf/fastspeech2.baker.v2.yaml"),
     ],
 )
 def test_fastspeech2_train_some_layers(var_train_expr, config_path):
